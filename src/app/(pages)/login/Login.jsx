@@ -24,7 +24,7 @@ const Login = () => {
         })
         router.push('/')
       })
-      return true
+
     }
     const handleOnChange=(e)=>{
       setUser({
