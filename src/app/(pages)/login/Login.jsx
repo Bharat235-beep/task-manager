@@ -22,7 +22,7 @@ const Login = () => {
           email:'',
           password:''
         })
-        router.push('/')
+       setTimeout(()=> router.push('/'),3000)
       })
 
     }
@@ -34,15 +34,17 @@ const Login = () => {
     }
    
   return (
-    <>
+    <div className='flex flex-col'>
     {loading && <Spinner/>}
+    <div>
     <h1 className='title text-white text-center text-3xl mb-3 mt-10'>LogIn To Your Account</h1>
+    </div>
     <div className='flex flex-col place-items-center '>
       <form onSubmit={async(e)=>{
         e.preventDefault()
       await  handleLogIn();
       }}
-       className='flex flex-col place-items-center border border-red-200  w-3/5'>
+       className='flex flex-col place-items-center border border-red-200  w-4/5'>
         
         <div className=' w-4/5 mb-4'>
             <label className='block mb-1 font-medium text-lg' htmlFor="username">Email Address</label>
@@ -59,7 +61,7 @@ const Login = () => {
         </div>
       </form>
     </div>
-    </>
+    </div>
   )
 }
 

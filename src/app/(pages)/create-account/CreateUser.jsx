@@ -30,10 +30,10 @@ const CreateUser = () => {
       })
     }
   return (
-    <>
+    <div className='flex flex-col'>
     <h1 className='title text-center text-3xl mb-3 text-white mt-10'>Create Your New Account</h1>
     <div className='flex flex-col place-items-center  '>
-      <form onSubmit={handleCreateUser} className='flex flex-col place-items-center border border-red-200 w-3/5'>
+      <form onSubmit={handleCreateUser} className='flex flex-col place-items-center border border-red-200 w-4/5'>
         <div className=' w-4/5 mb-4'>
             <label className='block mb-1 font-medium text-lg' htmlFor="name">UserName</label>
             <input required onChange={handleOnChange} value={user.name} type="text" name='name' className='bg-gray-100 w-full p-2 border-gray-500 focus:outline-blue-300 focus-visible:ring-blue-800 rounded-xl' id='name' />
@@ -52,7 +52,7 @@ const CreateUser = () => {
         </div>
       </form>
     </div>
-    </>
+    </div>
   )
 }
 
