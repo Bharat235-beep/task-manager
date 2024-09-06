@@ -27,7 +27,7 @@ export default function Home() {
      className="text-red-600 text-4xl"
      /> */}
    <ReactTyped
-    strings={[`<strong>Hi,${user.name}</strong><br/> Welcome to the Task-Manager.<br/> Here you can add your task.`]}
+    strings={[`<strong>Hi,${user.name}</strong><br/> Welcome to the Task-Manager.<br/> Here you can add your tasks.`]}
     typeSpeed={60}  className="title text-red-600 text-5xl text-center font-semibold italic"
     />
      <button className="bg-green-500 text-white mt-10 p-3 rounded-3xl hover:bg-green-400 active:bg-green-600 animate-bounce"  type="button" onClick={()=>router.push('/add-task')}>Add Task</button>

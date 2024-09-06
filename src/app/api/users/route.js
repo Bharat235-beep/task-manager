@@ -45,7 +45,7 @@ export async function POST(req, res) {
          response.cookies.set('task-manager',token)
         return response
     }
-    return response
+   
     } catch (err) {
     //    return NextResponse.error(  'Email already exist.' , { status: 500 })
     console.log(err)
