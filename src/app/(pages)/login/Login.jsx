@@ -15,15 +15,20 @@ const Login = () => {
         password:''
     })
     const handleLogIn=async()=>{
-     setLoading(true)
-     await login(user).then(()=>{
-   setLoading(false)
-        setUser({
-          email:'',
-          password:''
-        })
-       setTimeout(()=> router.push('/'),3000)
-      })
+   try {
+      setLoading(true)
+      await login(user).then(()=>{
+    setLoading(false)
+         setUser({
+           email:'',
+           password:''
+         })
+        setTimeout(()=> router.push('/'),3000)
+       })
+   } catch (error) {
+    console.log(error);
+    setLoading(false)
+   }
 
     }
     const handleOnChange=(e)=>{
@@ -61,6 +66,8 @@ const Login = () => {
         </div>
       </form>
     </div>
+    <h3 className='text-red-500 text-center'>Important*</h3>
+    <h4 className='text-red-400 text-center'>Please refresh page if it is not navigating after successfull login</h4>
     </div>
   )
 }
