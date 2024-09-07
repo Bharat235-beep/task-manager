@@ -6,11 +6,23 @@ import React, { useContext, useEffect, useState } from 'react'
 
 const ShowTasks = () => {
  const [loading,setLoading]=useState(true)
-  const {GetTasks,getUser,user,tasks,setTasks}=useContext(UserContext)
+  const {GetTasks,getUser,user,tasks,setTasks,isLogin}=useContext(UserContext)
  const handleGetTask=async()=>{
 await GetTasks()
  }
-  
+ const handleGetUser=async()=>{
+  setLoading(true)
+ await getUser().catch(err=>console.log(err.message))
+ setLoading(false)
+if(!isLogin){
+  router.push('/login')
+}
+}
+useEffect(()=>{
+  setLoading(true)
+  handleGetUser()
+  setLoading(false)
+      },[isLogin])
   useEffect(()=>{
     setLoading(true)
     handleGetTask()

@@ -4,12 +4,12 @@ import UserContext from '@/context/userContext'
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 const Login = () => {
   const router=useRouter()
   const [loading,setLoading]=useState(false)
-  const {login}=useContext(UserContext)
+  const {login,getUser,isLogin}=useContext(UserContext)
     const [user,setUser]=useState({
         email:'',
         password:''
@@ -18,13 +18,13 @@ const Login = () => {
    try {
       setLoading(true)
       await login(user).then(()=>{
-    setLoading(false)
-         setUser({
-           email:'',
-           password:''
-         })
+        setUser({
+          email:'',
+          password:''
+        })
         setTimeout(()=> router.push('/'),3000)
-       })
+      })
+      setLoading(false)
    } catch (error) {
     console.log(error);
     setLoading(false)
@@ -37,7 +37,19 @@ const Login = () => {
         [e.target.name]:e.target.value
       })
     }
-   
+    const handleGetUser=async()=>{
+      setLoading(true)
+     await getUser()
+     setLoading(false)
+    if(isLogin){
+      router.push('/')
+    }
+    }
+    useEffect(()=>{
+      setLoading(true)
+      handleGetUser()
+      setLoading(false)
+          },[isLogin])
   return (
     <div className='flex flex-col'>
     {loading && <Spinner/>}

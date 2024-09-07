@@ -10,13 +10,20 @@ import { ReactTyped } from "react-typed";
 export default function Home() {
   const [loading,setLoading]=useState(false)
   const router=useRouter()
-  const {getUser}=useContext(UserContext)
+  const {getUser,isLogin}=useContext(UserContext)
   const [user,setuser]=useState({})
-  useEffect(()=>{
+  const handleGetUser=async()=>{
     setLoading(true)
-    getUser().then((res)=>setuser(res))
-    setLoading(false)
-  },[])
+   await getUser().then((res)=>{setuser(res)})
+   .catch(err=>console.log(err.message))
+   setLoading(false)
+  if(!isLogin){
+    router.push('/login')
+  }
+  }
+  useEffect(()=>{
+ handleGetUser()
+  },[isLogin])
   
   return (
     <>

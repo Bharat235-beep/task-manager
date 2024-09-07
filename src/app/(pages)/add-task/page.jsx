@@ -1,12 +1,11 @@
 "use client"
 import Spinner from '@/components/Spinner'
 import UserContext from '@/context/userContext'
-import { httpAxios } from '@/helper/httpAxios'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 function AddTask() {
   const [loading,setLoading]=useState(false)
-  const {AddTask}=useContext(UserContext)
+  const {AddTask,isLogin}=useContext(UserContext)
     const [task,setTask]=useState({
         title:"",
         description:"",
@@ -29,6 +28,19 @@ function AddTask() {
       })
       setLoading(false)
     }
+    const handleGetUser=async()=>{
+      setLoading(true)
+     await getUser().catch(err=>console.log(err.message))
+     setLoading(false)
+    if(!isLogin){
+      router.push('/login')
+    }
+    }
+    useEffect(()=>{
+      setLoading(true)
+      handleGetUser()
+      setLoading(false)
+    },[isLogin])
   return (
     <>
     {loading && <Spinner/>}

@@ -54,7 +54,10 @@ export async function POST(req, res) {
 }
 export const GET=async()=>{
     await connectDb();
-    let token=cookies().get('task-manager').value
+    let token= cookies().get('task-manager')?.value
+    if(!token){
+        return NextResponse.json({message:"User not logged in!!"},{status:404})
+    }
     console.log(token)
     let data= jwt.verify(token,process.env.JWT_SECRET)
     console.log(data)

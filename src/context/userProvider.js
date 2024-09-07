@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 const UserProvider = ({ children }) => {
   const [user, setuser] = useState({})
   const [tasks, setTasks] = useState([])
+  const [isLogin,setIsLogin ] = useState(false)
 
   const confirmChanges = async () => {
     const result = await Swal.fire({
@@ -23,19 +24,30 @@ const UserProvider = ({ children }) => {
   }
 
   const getUser = async () => {
-    return (
-      await httpAxios.get('/api/users').then(result => {
-        console.log("get user")
-        setuser(result.data)
-        return (result.data)
-      })
-    )
+try {
+    const result=await httpAxios.get('/api/users')
+    setuser(result.data)
+    setIsLogin(true)
+    return (result.data)
+  } catch (error) {
+    console.log(err.message)
+    setIsLogin(false)
+}
+    // return (
+    //   await httpAxios.get('/api/users').then(result => {
+    //     console.log("get user")
+    //     setuser(result.data)
+    //     setIsLogin(true)
+    //     return (result.data)
+    //   })
+    // )
   }
 
   const createUser = async (user) => {
     try {
       const res = await httpAxios.post('/api/users', user)
       console.log(res)
+      setIsLogin(true)
       Swal.fire({
         title: "Success",
         text: 'Account created successfully!!',
@@ -54,6 +66,7 @@ const UserProvider = ({ children }) => {
 
   const logout = async () => {
     const res = await httpAxios.post('/api/logout')
+    setIsLogin(false)
     return res
   }
 
@@ -66,6 +79,7 @@ const UserProvider = ({ children }) => {
         text: 'Login Successfull !!',
         icon: "success"
       });
+      setIsLogin(true)
       console.log(res)
       return res.data
     } catch (error) {
@@ -87,6 +101,14 @@ const UserProvider = ({ children }) => {
           icon: "success"
         });
         console.log(result.data)
+      })
+      .catch((error)=>{
+        Swal.fire({
+          title: "Failed",
+          text: error.response.data.message,
+          icon: "error"
+        });
+        console.log(error.response.data)
       })
   }
   const DeleteTask = async (taskId) => {
@@ -149,7 +171,7 @@ const UserProvider = ({ children }) => {
   }, [])
   return (
     <>
-      <UserContext.Provider value={{ user, tasks, setTasks, getUser, logout, AddTask, setuser, GetTasks, DeleteTask, UpdateTask, login, createUser }}>
+      <UserContext.Provider value={{ user, tasks,isLogin, setTasks, getUser, logout, AddTask, setuser, GetTasks, DeleteTask, UpdateTask, login, createUser }}>
         {children}
       </UserContext.Provider>
     </>

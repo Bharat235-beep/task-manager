@@ -6,5 +6,7 @@ export async function POST(req){
    await connectDb();
    const res= cookies().delete('task-manager')
    console.log('cookie deleted')
-   return NextResponse.json({message:'deleted'})
+
+   return  NextResponse.json({message:'Successfully logged out!!'})
+   
 }

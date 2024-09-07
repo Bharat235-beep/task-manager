@@ -1,13 +1,14 @@
 'use client'
+import Spinner from '@/components/Spinner'
 import UserContext from '@/context/userContext'
-import { httpAxios } from '@/helper/httpAxios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 const CreateUser = () => {
   const router=useRouter()
-  const {createUser}=useContext(UserContext)
+  const [loading,setLoading]=useState(false)
+  const {createUser,getUser,isLogin}=useContext(UserContext)
     const [user,setUser]=useState({
         name:'',
         email:'',
@@ -21,7 +22,9 @@ const CreateUser = () => {
         email:'',
         password:''
       })
+     setTimeout(() => {
       router.push('/')
+     }, 2000);
     }
     const handleOnChange=(e)=>{
       setUser({
@@ -29,7 +32,22 @@ const CreateUser = () => {
         [e.target.name]:e.target.value
       })
     }
+    const handleGetUser=async()=>{
+      setLoading(true)
+     await getUser()
+     setLoading(false)
+    if(isLogin){
+      router.push('/')
+    }
+    }
+    useEffect(()=>{
+      setLoading(true)
+      handleGetUser()
+      setLoading(false)
+          },[isLogin])
   return (
+    <>
+    {loading && <Spinner/>}
     <div className='flex flex-col'>
     <h1 className='title text-center text-3xl mb-3 text-white mt-10'>Create Your New Account</h1>
     <div className='flex flex-col place-items-center  '>
@@ -53,6 +71,7 @@ const CreateUser = () => {
       </form>
     </div>
     </div>
+    </>
   )
 }
 
